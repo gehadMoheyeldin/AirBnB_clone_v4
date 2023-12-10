@@ -1,16 +1,6 @@
 # 0x06. AirBnB clone - Web dynamic
 ### `Python` `Front-end` `JavaScript`
 ## Resources
-**Read or watch**:
-
-* [Selector](https://jquery-tutorial.net/selectors/using-elements-ids-and-classes/)
-* [Get and set content](https://jquery-tutorial.net/dom-manipulation/getting-and-setting-content/)
-* [Manipulate CSS classes](https://jquery-tutorial.net/dom-manipulation/getting-and-setting-css-classes/)
-* [Manipulate DOM elements](https://jquery-tutorial.net/dom-manipulation/the-append-and-prepend-methods/)
-* [Document ready](https://learn.jquery.com/using-jquery-core/document-ready/)
-* [Introduction](https://jquery-tutorial.net/ajax/introduction/)
-* [GET & POST request](https://jquery-tutorial.net/ajax/the-get-and-post-methods/)
-* [HTTP access control (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
 
 ## General
 * How cool it is to request your own API
