@@ -1,38 +1,24 @@
-$(document).ready(function () {
-  const amenities = {};
-  $('input[type="checkbox"]').click(function () {
-    const amenityId = $(this).attr('data-id');
-    const amenityName = $(this).attr('data-name');
-    if ($(this).prop('checked') === true) {
-      amenities[amenityId] = amenityName;
-    } else if ($(this).prop('checked') === false) {
-      delete amenities[amenityId];
+$(document).ready(initialize);
+function initialize () {
+  const amenity = {};
+  $('.amenities .popover input').change(function () {
+    if ($(this).is(':checked')) {
+      amenity[$(this).attr('data-name')] = $(this).attr('data-id');
+    } else if ($(this).is(':not(:checked)')) {
+      delete amenity[$(this).attr('data-name')];
     }
-    const amenityList = Object.values(amenities).join(', ');
-    if (amenityList.length > 30) {
-      $('.amenities h4').text(amenityList.substring(0, 29) + '...');
+    const amenities = Object.keys(amenity);
+    $('.amenities h4').text(amenities.sort().join(', '));
+  });
+  apiStatus();
+}
+
+function apiStatus () {
+  $.get('http://0.0.0.0:5001/api/v1/status/', (data, textStatus) => {
+    if (textStatus === 'success' && data.status === 'OK') {
+      $('#api_status').addClass('available');
     } else {
-      $('.amenities h4').text(amenityList);
-    }
-    if ($.isEmptyObject(amenities)) {
-      $('.amenities h4').html('&nbsp;');
+      $('#api_status').removeClass('available');
     }
   });
-  $.ajax(
-    {
-     url: 'http://0.0.0.0:5001/api/v1/status/',
-     type: 'GET',
-     dataType: 'json',
-     success: function (response) {
-	 if (response.status === 'OK') {
-	     $('DIV#api_status').addClass('available');
-	 } else {
-	     $('DIV#api_status').removeClass('available');
-	 }
-    },
-	error: function (error) {
-	    $('DIV#api_status').removeClass('available');
-	}
-    }
-  )
-});
+}

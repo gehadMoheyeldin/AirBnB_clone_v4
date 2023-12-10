@@ -1,17 +1,29 @@
 $(document).ready(initialize);
+const amenity = {};
+const state = {};
+const city = {};
+let all = {};
+
 function initialize () {
-  const amenity = {};
-  $('.amenities .popover input').change(function () {
-    if ($(this).is(':checked')) {
-      amenity[$(this).attr('data-name')] = $(this).attr('data-id');
-    } else if ($(this).is(':not(:checked)')) {
-      delete amenity[$(this).attr('data-name')];
-    }
-    const amenities = Object.keys(amenity);
-    $('.amenities h4').text(amenities.sort().join(', '));
-  });
+  $('.amenities .popover input').change(function () { all = amenity; checked.call(this, 1); });
+  $('.state_input').change(function () { all = state; checked.call(this, 2); });
+  $('.city_input').change(function () { all = city; checked.call(this, 3); });
   apiStatus();
   fetchPlaces();
+}
+
+function checked (nObject) {
+  if ($(this).is(':checked')) {
+    all[$(this).attr('data-name')] = $(this).attr('data-id');
+  } else if ($(this).is(':not(:checked)')) {
+    delete all[$(this).attr('data-name')];
+  }
+  const classes = Object.keys(all);
+  if (nObject === 1) {
+    $('.amenities h4').text(classes.sort().join(', '));
+  } else if (nObject === 2) {
+    $('.locations h4').text(classes.sort().join(', '));
+  }
 }
 
 function apiStatus () {
@@ -30,8 +42,13 @@ function fetchPlaces () {
     url: PLACE_URL,
     type: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    data: JSON.stringify({}),
+    data: JSON.stringify({
+      amenities: Object.values(amenity),
+      states: Object.values(state),
+      cities: Object.values(city)
+    }),
     success: function (response) {
+      $('SECTION.places').empty();
       for (const content of response) {
         const data = ['<article>',
           '<div class="title_box">',
